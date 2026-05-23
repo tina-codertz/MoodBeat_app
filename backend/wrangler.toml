@@ -2,10 +2,9 @@ name = "moodbeat-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
-[vars]
-JWT_SECRET = "moodbeat-dev-secret-change-in-production"
+# JWT_SECRET: backend/.dev.vars (local) or `wrangler secret put JWT_SECRET` (production)
 
 [[d1_databases]]
 binding = "DB"
 database_name = "moodbeat-db"
-database_id = "local"
+database_id = "09ef3a1a-a8ed-4268-8285-42cd10000dff"

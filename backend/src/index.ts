@@ -80,6 +80,7 @@ app.use('/api/*', async (c, next) => {
         const payload = await verify(
           authHeader.slice(7),
           c.env.JWT_SECRET,
+          'HS256',
         );
         c.set('userId', payload.sub as string);
         c.set('userEmail', payload.email as string);
@@ -96,7 +97,7 @@ app.use('/api/*', async (c, next) => {
   }
 
   try {
-    const payload = await verify(authHeader.slice(7), c.env.JWT_SECRET);
+    const payload = await verify(authHeader.slice(7), c.env.JWT_SECRET, 'HS256');
     c.set('userId', payload.sub as string);
     c.set('userEmail', payload.email as string);
     return next();
@@ -170,6 +171,7 @@ app.post('/api/auth/signin', async (c) => {
   const token = await sign(
     { sub: user.id, email: user.email, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 },
     c.env.JWT_SECRET,
+    'HS256',
   );
 
   return c.json({

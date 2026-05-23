@@ -5,18 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
+    "dev:remote": "wrangler dev --remote",
     "deploy": "wrangler deploy",
     "db:migrate": "wrangler d1 execute moodbeat-db --local --file=schema.sql",
     "db:seed": "wrangler d1 execute moodbeat-db --local --file=seed.sql",
     "db:setup": "npm run db:migrate && npm run db:seed",
+    "generate:jwt": "tsx scripts/generate-jwt.ts",
     "db:migrate:remote": "wrangler d1 execute moodbeat-db --remote --file=schema.sql",
-    "db:seed:remote": "wrangler d1 execute moodbeat-db --remote --file=seed.sql"
+    "db:seed:remote": "wrangler d1 execute moodbeat-db --remote --file=seed.sql",
+    "db:setup:remote": "npm run db:migrate:remote && npm run db:seed:remote"
   },
   "dependencies": {
     "hono": "^4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4",
+    "tsx": "^4.22.3",
     "wrangler": "^3"
   }
 }
