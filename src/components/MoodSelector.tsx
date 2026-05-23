@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Sparkles, Search, Zap } from 'lucide-react';
+import { Sparkles, Search, Zap, Check } from 'lucide-react';
 import { MOOD_CARDS, ACTIVITY_CARDS } from '../data/moods';
 import { MoodCard } from '../types';
+import { MoodIcon } from '../lib/icons';
 
 interface MoodSelectorProps {
   onMoodSelect: (mood: MoodCard) => void;
@@ -26,7 +27,7 @@ export function MoodSelector({ onMoodSelect, selectedMood }: MoodSelectorProps) 
     } else {
       const custom: MoodCard = {
         label: customText,
-        emoji: '✨',
+        icon: 'Sparkles',
         description: customText,
         color: '#22c55e',
         gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
@@ -41,7 +42,7 @@ export function MoodSelector({ onMoodSelect, selectedMood }: MoodSelectorProps) 
   const handleActivitySelect = (activity: typeof ACTIVITY_CARDS[0]) => {
     const matched = MOOD_CARDS.find(m => m.tags.some(t => activity.tags.includes(t)));
     if (matched) {
-      onMoodSelect({ ...matched, label: activity.label, emoji: activity.emoji });
+      onMoodSelect({ ...matched, label: activity.label, icon: activity.icon });
     }
   };
 
@@ -114,7 +115,9 @@ export function MoodSelector({ onMoodSelect, selectedMood }: MoodSelectorProps) 
                 style={{ background: `radial-gradient(circle at 50% 50%, ${mood.color}, transparent)` }}
               />
               <div className="relative">
-                <span className="text-3xl mb-2 block">{mood.emoji}</span>
+                <div className="mb-2" style={{ color: mood.color }}>
+                  <MoodIcon name={mood.icon} size={28} />
+                </div>
                 <p className="font-semibold text-white text-sm">{mood.label}</p>
                 <p className="text-white/50 text-xs mt-0.5">{mood.description}</p>
                 <div className="mt-2 flex items-center gap-1">
@@ -136,7 +139,7 @@ export function MoodSelector({ onMoodSelect, selectedMood }: MoodSelectorProps) 
               {selectedMood?.label === mood.label && (
                 <div className="absolute top-2 right-2">
                   <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                    <span className="text-white text-xs">✓</span>
+                    <Check size={12} className="text-white" />
                   </div>
                 </div>
               )}
@@ -154,7 +157,9 @@ export function MoodSelector({ onMoodSelect, selectedMood }: MoodSelectorProps) 
               onClick={() => handleActivitySelect(activity)}
               className="glass-card p-5 text-center hover:scale-105 transition-all duration-200 group"
             >
-              <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">{activity.emoji}</span>
+              <div className="flex justify-center mb-2 text-white/80 group-hover:scale-110 transition-transform">
+                <MoodIcon name={activity.icon} size={28} />
+              </div>
               <p className="text-white font-medium text-sm">{activity.label}</p>
             </button>
           ))}

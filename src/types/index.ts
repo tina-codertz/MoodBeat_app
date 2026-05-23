@@ -16,7 +16,7 @@ export interface Mood {
   id: string;
   user_id: string;
   label: string;
-  emoji: string;
+  icon: string;
   description: string;
   energy_level: number;
   color: string;
@@ -44,7 +44,7 @@ export interface ChatMessage {
 
 export interface MoodCard {
   label: string;
-  emoji: string;
+  icon: string;
   description: string;
   color: string;
   gradient: string;

@@ -3,7 +3,7 @@ import { MoodCard } from '../types';
 export const MOOD_CARDS: MoodCard[] = [
   {
     label: 'Happy',
-    emoji: '😊',
+    icon: 'Smile',
     description: 'Feeling joyful and bright',
     color: '#f59e0b',
     gradient: 'from-yellow-400 via-orange-400 to-pink-500',
@@ -12,7 +12,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Energetic',
-    emoji: '⚡',
+    icon: 'Zap',
     description: 'Ready to take on the world',
     color: '#ef4444',
     gradient: 'from-red-500 via-orange-500 to-yellow-400',
@@ -21,7 +21,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Chill',
-    emoji: '😌',
+    icon: 'Coffee',
     description: 'Relaxed and at ease',
     color: '#06b6d4',
     gradient: 'from-cyan-400 via-teal-500 to-blue-600',
@@ -30,7 +30,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Sad',
-    emoji: '😢',
+    icon: 'Frown',
     description: 'Feeling blue and reflective',
     color: '#6366f1',
     gradient: 'from-slate-500 via-blue-600 to-indigo-700',
@@ -39,7 +39,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Romantic',
-    emoji: '💖',
+    icon: 'Heart',
     description: 'In the mood for love',
     color: '#ec4899',
     gradient: 'from-pink-400 via-rose-500 to-red-500',
@@ -48,7 +48,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Focused',
-    emoji: '🎯',
+    icon: 'Target',
     description: 'Deep work and concentration',
     color: '#10b981',
     gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
@@ -57,7 +57,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Nostalgic',
-    emoji: '🌙',
+    icon: 'Moon',
     description: 'Lost in memories',
     color: '#8b5cf6',
     gradient: 'from-violet-500 via-purple-600 to-indigo-700',
@@ -66,7 +66,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Hype',
-    emoji: '🔥',
+    icon: 'Flame',
     description: 'Amped up and unstoppable',
     color: '#f97316',
     gradient: 'from-orange-500 via-red-500 to-pink-600',
@@ -75,7 +75,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Melancholic',
-    emoji: '🌧️',
+    icon: 'CloudDrizzle',
     description: 'Beautiful sadness, introspective',
     color: '#475569',
     gradient: 'from-slate-400 via-slate-600 to-slate-800',
@@ -84,7 +84,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Summer Vibes',
-    emoji: '🌊',
+    icon: 'Sun',
     description: 'Sun, surf, and good times',
     color: '#0ea5e9',
     gradient: 'from-sky-400 via-cyan-400 to-teal-500',
@@ -93,7 +93,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Night Drive',
-    emoji: '🌃',
+    icon: 'MoonStar',
     description: 'Late night, city lights',
     color: '#1e40af',
     gradient: 'from-blue-900 via-indigo-800 to-violet-900',
@@ -102,7 +102,7 @@ export const MOOD_CARDS: MoodCard[] = [
   },
   {
     label: 'Angry',
-    emoji: '😤',
+    icon: 'Swords',
     description: 'Release the pressure',
     color: '#dc2626',
     gradient: 'from-red-600 via-red-700 to-rose-900',
@@ -112,12 +112,12 @@ export const MOOD_CARDS: MoodCard[] = [
 ];
 
 export const ACTIVITY_CARDS = [
-  { label: 'Working Out', emoji: '💪', tags: ['workout', 'energetic', 'hype'] },
-  { label: 'Studying', emoji: '📚', tags: ['study', 'focus', 'calm'] },
-  { label: 'Driving', emoji: '🚗', tags: ['night drive', 'vibes', 'chill'] },
-  { label: 'Cooking', emoji: '👨‍🍳', tags: ['happy', 'upbeat', 'summer'] },
-  { label: 'Sleeping', emoji: '😴', tags: ['calm', 'relaxed', 'dreamy'] },
-  { label: 'Party', emoji: '🎉', tags: ['dance', 'energetic', 'hype'] },
-  { label: 'Meditation', emoji: '🧘', tags: ['calm', 'focus', 'relaxed'] },
-  { label: 'Running', emoji: '🏃', tags: ['running', 'energetic', 'workout'] },
+  { label: 'Working Out', icon: 'Dumbbell', tags: ['workout', 'energetic', 'hype'] },
+  { label: 'Studying', icon: 'BookOpen', tags: ['study', 'focus', 'calm'] },
+  { label: 'Driving', icon: 'Car', tags: ['night drive', 'vibes', 'chill'] },
+  { label: 'Cooking', icon: 'ChefHat', tags: ['happy', 'upbeat', 'summer'] },
+  { label: 'Sleeping', icon: 'BedDouble', tags: ['calm', 'relaxed', 'dreamy'] },
+  { label: 'Party', icon: 'PartyPopper', tags: ['dance', 'energetic', 'hype'] },
+  { label: 'Meditation', icon: 'Leaf', tags: ['calm', 'focus', 'relaxed'] },
+  { label: 'Running', icon: 'Activity', tags: ['running', 'energetic', 'workout'] },
 ];

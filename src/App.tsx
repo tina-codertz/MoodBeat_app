@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Music } from 'lucide-react';
 import { Navigation } from './components/Navigation';
 import { MoodSelector } from './components/MoodSelector';
 import { MusicRecommendations } from './components/MusicRecommendations';
@@ -36,7 +37,7 @@ export default function App() {
       <div className="min-h-screen bg-[#080810] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center mx-auto mb-3 animate-pulse-slow">
-            <span className="text-2xl">🎵</span>
+            <Music size={24} className="text-white" />
           </div>
           <p className="text-white/40 text-sm">Loading MoodBeat...</p>
         </div>

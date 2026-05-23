@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Music, Sparkles } from 'lucide-react';
+import { Send, Bot, User, Loader2, Music, Sparkles, CloudRain, Dumbbell, Code, Heart, Moon, type LucideIcon } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { ChatMessage } from '../types';
 import { MOOD_CARDS } from '../data/moods';
@@ -12,59 +12,59 @@ interface AIChatProps {
 
 const SYSTEM_CONTEXT = `You are MoodBeat's AI music assistant. You help users discover music based on their emotions, activities, and preferences. You know about all music genres, moods, and can suggest songs and playlists. Keep responses concise, enthusiastic, and music-focused. When you detect a mood or activity, mention it. Always suggest 2-3 specific song/artist recommendations when relevant. Available moods: ${MOOD_CARDS.map(m => m.label).join(', ')}.`;
 
-const QUICK_PROMPTS = [
-  { text: "What should I listen to when it's raining?", emoji: '🌧️' },
-  { text: "Songs to hype me up before a workout", emoji: '💪' },
-  { text: "Chill beats for late night coding", emoji: '💻' },
-  { text: "Romantic playlist for a date night", emoji: '🌹' },
-  { text: "I'm feeling nostalgic, suggest something", emoji: '🌙' },
+const QUICK_PROMPTS: { text: string; icon: LucideIcon }[] = [
+  { text: "What should I listen to when it's raining?", icon: CloudRain },
+  { text: "Songs to hype me up before a workout", icon: Dumbbell },
+  { text: "Chill beats for late night coding", icon: Code },
+  { text: "Romantic playlist for a date night", icon: Heart },
+  { text: "I'm feeling nostalgic, suggest something", icon: Moon },
 ];
 
 function generateAIResponse(userMessage: string): string {
   const msg = userMessage.toLowerCase();
 
   if (msg.includes('rain') || msg.includes('rainy') || msg.includes('storm')) {
-    return `Perfect rainy day music exists! For that cozy, introspective vibe I'd suggest:\n\n• **"Heat Waves"** by Glass Animals — dreamy and melancholic\n• **"drivers license"** by Olivia Rodrigo — emotionally raw\n• **Lo-fi study beats** — perfect background for rainy afternoons\n\nShall I build you a rainy day playlist? 🌧️`;
+    return `Perfect rainy day music exists! For that cozy, introspective vibe I'd suggest:\n\n• **"Heat Waves"** by Glass Animals — dreamy and melancholic\n• **"drivers license"** by Olivia Rodrigo — emotionally raw\n• **Lo-fi study beats** — perfect background for rainy afternoons\n\nShall I build you a rainy day playlist?`;
   }
   if (msg.includes('workout') || msg.includes('gym') || msg.includes('run') || msg.includes('exercise')) {
-    return `Time to crush it! Here's what'll get your blood pumping:\n\n• **"Industry Baby"** by Lil Nas X & Jack Harlow — unstoppable energy\n• **"good 4 u"** by Olivia Rodrigo — angry energy works great\n• **"Blinding Lights"** by The Weeknd — perfect BPM for running\n\nI can create a full workout playlist with tracks above 140 BPM! 💪`;
+    return `Time to crush it! Here's what'll get your blood pumping:\n\n• **"Industry Baby"** by Lil Nas X & Jack Harlow — unstoppable energy\n• **"good 4 u"** by Olivia Rodrigo — angry energy works great\n• **"Blinding Lights"** by The Weeknd — perfect BPM for running\n\nI can create a full workout playlist with tracks above 140 BPM!`;
   }
   if (msg.includes('sad') || msg.includes('heartbreak') || msg.includes('breakup') || msg.includes('cry')) {
-    return `Sometimes we just need to feel it fully 💙 Here are songs that understand:\n\n• **"drivers license"** by Olivia Rodrigo — raw heartbreak\n• **"Ghost"** by Justin Bieber — quiet grief\n• **"Anti-Hero"** by Taylor Swift — self-reflective sadness\n\nMusic can be healing. Would you like a playlist to help process those feelings?`;
+    return `Sometimes we just need to feel it fully. Here are songs that understand:\n\n• **"drivers license"** by Olivia Rodrigo — raw heartbreak\n• **"Ghost"** by Justin Bieber — quiet grief\n• **"Anti-Hero"** by Taylor Swift — self-reflective sadness\n\nMusic can be healing. Would you like a playlist to help process those feelings?`;
   }
   if (msg.includes('happy') || msg.includes('joy') || msg.includes('excited') || msg.includes('good mood')) {
-    return `Spread those good vibes! 🎉 Here's what matches your energy:\n\n• **"Levitating"** by Dua Lipa — pure euphoria\n• **"About Damn Time"** by Lizzo — celebrate yourself\n• **"Watermelon Sugar"** by Harry Styles — carefree summer feeling\n\nLet me curate a happiness playlist for you!`;
+    return `Spread those good vibes! Here's what matches your energy:\n\n• **"Levitating"** by Dua Lipa — pure euphoria\n• **"About Damn Time"** by Lizzo — celebrate yourself\n• **"Watermelon Sugar"** by Harry Styles — carefree summer feeling\n\nLet me curate a happiness playlist for you!`;
   }
   if (msg.includes('chill') || msg.includes('relax') || msg.includes('calm') || msg.includes('study') || msg.includes('focus') || msg.includes('code')) {
-    return `Getting into the zone 🎯 These tracks will help you focus:\n\n• **"Lo-Fi Study Beats"** — perfect concentration background\n• **"Peaches"** by Justin Bieber — mellow R&B vibes\n• **"Mood"** by 24kGoldn — effortlessly chill\n\nWant a focus playlist curated for deep work sessions?`;
+    return `Getting into the zone — these tracks will help you focus:\n\n• **"Lo-Fi Study Beats"** — perfect concentration background\n• **"Peaches"** by Justin Bieber — mellow R&B vibes\n• **"Mood"** by 24kGoldn — effortlessly chill\n\nWant a focus playlist curated for deep work sessions?`;
   }
   if (msg.includes('romantic') || msg.includes('love') || msg.includes('date') || msg.includes('crush')) {
-    return `Setting the mood for love 💖 These will do the trick:\n\n• **"Golden Hour"** by JVKE — genuinely magical\n• **"Kiss Me More"** by Doja Cat ft. SZA — smooth and sensual\n• **"Fly Me to the Moon"** by Frank Sinatra — timeless classic\n\nShould I build the perfect date night playlist?`;
+    return `Setting the mood for love — these will do the trick:\n\n• **"Golden Hour"** by JVKE — genuinely magical\n• **"Kiss Me More"** by Doja Cat ft. SZA — smooth and sensual\n• **"Fly Me to the Moon"** by Frank Sinatra — timeless classic\n\nShould I build the perfect date night playlist?`;
   }
   if (msg.includes('nostalgic') || msg.includes('memories') || msg.includes('throwback') || msg.includes('old')) {
-    return `Diving into the past 🌙 These songs hit different:\n\n• **"Running Up That Hill"** by Kate Bush — timeless and powerful\n• **"Heat Waves"** by Glass Animals — dreamy nostalgia\n• **"Midnight Rain"** by Taylor Swift — late-night reflections\n\nNostalgia is such a beautiful feeling. Want a full throwback playlist?`;
+    return `Diving into the past — these songs hit different:\n\n• **"Running Up That Hill"** by Kate Bush — timeless and powerful\n• **"Heat Waves"** by Glass Animals — dreamy nostalgia\n• **"Midnight Rain"** by Taylor Swift — late-night reflections\n\nNostalgia is such a beautiful feeling. Want a full throwback playlist?`;
   }
   if (msg.includes('night') || msg.includes('midnight') || msg.includes('late')) {
-    return `Late night energy hits different 🌃 Here's the perfect soundtrack:\n\n• **"Blinding Lights"** by The Weeknd — iconic night drive anthem\n• **"Save Your Tears"** by The Weeknd — melancholic night vibes\n• **"Midnight Rain"** by Taylor Swift — made for midnight\n\nThe night is yours. Want a full late-night playlist?`;
+    return `Late night energy hits different. Here's the perfect soundtrack:\n\n• **"Blinding Lights"** by The Weeknd — iconic night drive anthem\n• **"Save Your Tears"** by The Weeknd — melancholic night vibes\n• **"Midnight Rain"** by Taylor Swift — made for midnight\n\nThe night is yours. Want a full late-night playlist?`;
   }
   if (msg.includes('dance') || msg.includes('party') || msg.includes('club')) {
-    return `Let's get the party started! 🎉 These are guaranteed floor-fillers:\n\n• **"Levitating"** by Dua Lipa — impossible not to dance\n• **"Shivers"** by Ed Sheeran — infectious energy\n• **"About Damn Time"** by Lizzo — everyone dances to this\n\nI can create the ultimate party playlist — just say the word!`;
+    return `Let's get the party started! These are guaranteed floor-fillers:\n\n• **"Levitating"** by Dua Lipa — impossible not to dance\n• **"Shivers"** by Ed Sheeran — infectious energy\n• **"About Damn Time"** by Lizzo — everyone dances to this\n\nI can create the ultimate party playlist — just say the word!`;
   }
   if (msg.includes('playlist') || msg.includes('create') || msg.includes('make') || msg.includes('build')) {
-    return `I'd love to create a playlist for you! 🎵 Tell me:\n\n1. What's your current **mood or vibe**?\n2. Any specific **activity** you're doing?\n3. Any **genre preferences**?\n\nWith that info I can curate something perfectly tailored to you.`;
+    return `I'd love to create a playlist for you! Tell me:\n\n1. What's your current **mood or vibe**?\n2. Any specific **activity** you're doing?\n3. Any **genre preferences**?\n\nWith that info I can curate something perfectly tailored to you.`;
   }
   if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey') || msg.includes('what') || msg.includes('who are you')) {
-    return `Hey there! I'm **MoodBeat AI** 🎵✨\n\nI'm your personal music companion. I can:\n• Recommend songs based on your **mood or emotion**\n• Suggest playlists for any **activity**\n• Help you discover music that fits your **vibe**\n• Answer any music-related questions\n\nJust tell me how you're feeling or what you're up to, and I'll find the perfect soundtrack for your moment!`;
+    return `Hey there! I'm **MoodBeat AI** — your personal music companion.\n\nI can:\n• Recommend songs based on your **mood or emotion**\n• Suggest playlists for any **activity**\n• Help you discover music that fits your **vibe**\n• Answer any music-related questions\n\nJust tell me how you're feeling or what you're up to, and I'll find the perfect soundtrack for your moment!`;
   }
 
   const moods = ['sad', 'happy', 'energetic', 'chill', 'romantic', 'nostalgic'];
   const detectedMood = moods.find(m => msg.includes(m));
 
   if (detectedMood) {
-    return `I can feel that ${detectedMood} energy! 🎵 Let me suggest some tracks that match perfectly. Try selecting the **${detectedMood.charAt(0).toUpperCase() + detectedMood.slice(1)}** mood on the Discover page for a full AI-curated playlist, or tell me more about what you're looking for!`;
+    return `I can feel that ${detectedMood} energy! Let me suggest some tracks that match perfectly. Try selecting the **${detectedMood.charAt(0).toUpperCase() + detectedMood.slice(1)}** mood on the Discover page for a full AI-curated playlist, or tell me more about what you're looking for!`;
   }
 
-  return `That's a great vibe to explore! 🎵 Music is all about matching the moment. Could you tell me:\n\n• What **emotion** best describes how you're feeling?\n• What **activity** are you doing?\n• Any specific **genre** you're in the mood for?\n\nI'll find the perfect tracks for your exact moment!`;
+  return `That's a great vibe to explore! Music is all about matching the moment. Could you tell me:\n\n• What **emotion** best describes how you're feeling?\n• What **activity** are you doing?\n• Any specific **genre** you're in the mood for?\n\nI'll find the perfect tracks for your exact moment!`;
 }
 
 export function AIChat({ userId, onAuthRequired, onMoodDetected }: AIChatProps) {
@@ -73,7 +73,7 @@ export function AIChat({ userId, onAuthRequired, onMoodDetected }: AIChatProps) 
       id: 'welcome',
       user_id: '',
       role: 'assistant',
-      content: `Hey! I'm your **MoodBeat AI** 🎵 Tell me how you're feeling or what you're up to, and I'll find the perfect music for your moment. Try asking about workouts, rainy days, late-night vibes, heartbreak playlists — anything!`,
+      content: `Hey! I'm your **MoodBeat AI** — tell me how you're feeling or what you're up to, and I'll find the perfect music for your moment. Try asking about workouts, rainy days, late-night vibes, heartbreak playlists — anything!`,
       created_at: new Date().toISOString(),
     },
   ]);
@@ -223,16 +223,19 @@ export function AIChat({ userId, onAuthRequired, onMoodDetected }: AIChatProps) 
 
       {/* Quick prompts */}
       <div className="flex gap-2 mb-3 overflow-x-auto pb-1">
-        {QUICK_PROMPTS.map(p => (
-          <button
-            key={p.text}
-            onClick={() => sendMessage(p.text)}
-            className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 text-xs transition-all"
-          >
-            <span>{p.emoji}</span>
-            <span className="whitespace-nowrap">{p.text.split(' ').slice(0, 4).join(' ')}...</span>
-          </button>
-        ))}
+        {QUICK_PROMPTS.map(p => {
+          const Icon = p.icon;
+          return (
+            <button
+              key={p.text}
+              onClick={() => sendMessage(p.text)}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 text-xs transition-all"
+            >
+              <Icon size={12} />
+              <span className="whitespace-nowrap">{p.text.split(' ').slice(0, 4).join(' ')}...</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Input */}

@@ -31,7 +31,7 @@ export function usePlaylists(userId: string | undefined) {
         .from('playlists')
         .insert({
           user_id: userId,
-          name: `${mood.emoji} ${mood.label} Vibes`,
+          name: `${mood.label} Vibes`,
           description: `A playlist for when you're feeling ${mood.label.toLowerCase()}`,
           cover_gradient: mood.gradient,
         })

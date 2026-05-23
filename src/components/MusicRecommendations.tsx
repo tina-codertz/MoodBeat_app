@@ -4,6 +4,7 @@ import { SongCard } from './SongCard';
 import { useSongs } from '../hooks/useSongs';
 import { usePlaylists } from '../hooks/usePlaylists';
 import { MoodCard, Song } from '../types';
+import { MoodIcon } from '../lib/icons';
 
 interface MusicRecommendationsProps {
   mood: MoodCard;
@@ -53,7 +54,7 @@ export function MusicRecommendations({ mood, userId, onBack, onAuthRequired }: M
         </button>
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-1">
-            <span className="text-3xl">{mood.emoji}</span>
+            <MoodIcon name={mood.icon} size={28} className="text-white" />
             <h2 className="text-2xl font-bold text-white">{mood.label}</h2>
           </div>
           <p className="text-white/50 text-sm">{mood.description}</p>
