@@ -23,12 +23,10 @@ export function AuthModal({ onClose }: AuthModalProps) {
 
     try {
       if (mode === 'signin') {
-        const { error } = await signIn(email, password);
-        if (error) throw error;
+        await signIn(email, password);
         onClose();
       } else {
-        const { error } = await signUp(email, password);
-        if (error) throw error;
+        await signUp(email, password);
         setSuccess('Account created! You can now sign in.');
         setMode('signin');
       }
@@ -41,7 +39,10 @@ export function AuthModal({ onClose }: AuthModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      />
       <div className="relative glass-card w-full max-w-md p-8 animate-scale-in">
         <button
           onClick={onClose}
@@ -84,11 +85,14 @@ export function AuthModal({ onClose }: AuthModalProps) {
           <div>
             <label className="block text-white/60 text-sm mb-1.5">Email</label>
             <div className="relative">
-              <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+              <Mail
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
+              />
               <input
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
                 className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-emerald-500/60 focus:bg-white/10 transition-all"
@@ -97,13 +101,18 @@ export function AuthModal({ onClose }: AuthModalProps) {
           </div>
 
           <div>
-            <label className="block text-white/60 text-sm mb-1.5">Password</label>
+            <label className="block text-white/60 text-sm mb-1.5">
+              Password
+            </label>
             <div className="relative">
-              <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+              <Lock
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
+              />
               <input
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
                 minLength={6}
@@ -117,15 +126,23 @@ export function AuthModal({ onClose }: AuthModalProps) {
             disabled={loading}
             className="w-full btn-primary py-3 flex items-center justify-center gap-2"
           >
-            {loading ? <Loader2 size={18} className="animate-spin" /> : null}
+            {loading ? (
+              <Loader2 size={18} className="animate-spin" />
+            ) : null}
             {mode === 'signin' ? 'Sign In' : 'Create Account'}
           </button>
         </form>
 
         <p className="text-center text-white/40 text-sm mt-6">
-          {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
+          {mode === 'signin'
+            ? "Don't have an account? "
+            : 'Already have an account? '}
           <button
-            onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(''); setSuccess(''); }}
+            onClick={() => {
+              setMode(mode === 'signin' ? 'signup' : 'signin');
+              setError('');
+              setSuccess('');
+            }}
             className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
           >
             {mode === 'signin' ? 'Sign up' : 'Sign in'}

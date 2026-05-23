@@ -1,39 +1,49 @@
-import { useState, useEffect } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { useState, useEffect, useCallback } from 'react';
+import { api, setToken, clearToken, getToken } from '../lib/api';
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  created_at: string;
+}
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+    const token = getToken();
+    if (!token) {
       setLoading(false);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+      return;
+    }
+    api
+      .get<{ user: AuthUser }>('/api/auth/me')
+      .then((data) => setUser(data.user))
+      .catch(() => clearToken())
+      .finally(() => setLoading(false));
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    return supabase.auth.signInWithPassword({ email, password });
-  };
+  const signIn = useCallback(async (email: string, password: string) => {
+    const data = await api.post<{ token: string; user: AuthUser }>(
+      '/api/auth/signin',
+      { email, password },
+    );
+    setToken(data.token);
+    setUser(data.user);
+  }, []);
 
-  const signUp = async (email: string, password: string) => {
-    return supabase.auth.signUp({ email, password });
-  };
+  const signUp = useCallback(async (email: string, password: string) => {
+    await api.post<{ message: string }>('/api/auth/signup', {
+      email,
+      password,
+    });
+  }, []);
 
-  const signOut = async () => {
-    return supabase.auth.signOut();
-  };
+  const signOut = useCallback(() => {
+    clearToken();
+    setUser(null);
+  }, []);
 
-  return { user, session, loading, signIn, signUp, signOut };
+  return { user, loading, signIn, signUp, signOut };
 }

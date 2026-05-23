@@ -12,23 +12,11 @@ export interface Song {
   valence: number;
 }
 
-export interface Mood {
-  id: string;
-  user_id: string;
-  label: string;
-  icon: string;
-  description: string;
-  energy_level: number;
-  color: string;
-  created_at: string;
-}
-
 export interface Playlist {
   id: string;
   user_id: string;
   name: string;
   description: string;
-  mood_id: string | null;
   cover_gradient: string;
   created_at: string;
   songs?: Song[];

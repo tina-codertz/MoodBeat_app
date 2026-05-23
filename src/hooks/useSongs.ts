@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { Song, MoodCard } from '../types';
 
 export function useSongs() {
@@ -9,20 +9,14 @@ export function useSongs() {
   const fetchByMood = useCallback(async (mood: MoodCard) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('songs')
-        .select('*')
-        .overlaps('mood_tags', mood.tags)
-        .limit(12);
-
-      if (error) throw error;
-
-      const sorted = (data || []).sort((a, b) => {
-        const aMatches = a.mood_tags.filter((t: string) => mood.tags.includes(t)).length;
-        const bMatches = b.mood_tags.filter((t: string) => mood.tags.includes(t)).length;
+      const data = await api.get<{ songs: Song[] }>(
+        `/api/songs?tags=${mood.tags.join(',')}`,
+      );
+      const sorted = (data.songs || []).sort((a, b) => {
+        const aMatches = a.mood_tags.filter((t) => mood.tags.includes(t)).length;
+        const bMatches = b.mood_tags.filter((t) => mood.tags.includes(t)).length;
         return bMatches - aMatches;
       });
-
       setSongs(sorted);
     } catch {
       setSongs([]);
@@ -34,14 +28,10 @@ export function useSongs() {
   const fetchByTags = useCallback(async (tags: string[]) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('songs')
-        .select('*')
-        .overlaps('mood_tags', tags)
-        .limit(10);
-
-      if (error) throw error;
-      setSongs(data || []);
+      const data = await api.get<{ songs: Song[] }>(
+        `/api/songs?tags=${tags.join(',')}`,
+      );
+      setSongs(data.songs || []);
     } catch {
       setSongs([]);
     } finally {
@@ -52,9 +42,8 @@ export function useSongs() {
   const fetchAll = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from('songs').select('*').limit(20);
-      if (error) throw error;
-      setSongs(data || []);
+      const data = await api.get<{ songs: Song[] }>('/api/songs');
+      setSongs(data.songs || []);
     } catch {
       setSongs([]);
     } finally {

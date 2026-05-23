@@ -49,15 +49,21 @@ export default function App() {
     <div className="min-h-screen bg-app relative overflow-hidden">
       <AnimatedBackground accentColor={accentColor} />
 
-      {/* Background gradient blobs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+      <div
+        className="fixed inset-0 pointer-events-none overflow-hidden"
+        style={{ zIndex: 0 }}
+      >
         <div
           className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-10 blur-3xl transition-all duration-1000"
-          style={{ background: `radial-gradient(circle, ${accentColor}, transparent)` }}
+          style={{
+            background: `radial-gradient(circle, ${accentColor}, transparent)`,
+          }}
         />
         <div
           className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full opacity-8 blur-3xl transition-all duration-1000"
-          style={{ background: `radial-gradient(circle, ${accentColor}, transparent)` }}
+          style={{
+            background: `radial-gradient(circle, ${accentColor}, transparent)`,
+          }}
         />
       </div>
 
@@ -98,7 +104,7 @@ export default function App() {
           <AIChat
             userId={user?.id}
             onAuthRequired={handleAuthRequired}
-            onMoodDetected={mood => {
+            onMoodDetected={(mood) => {
               setSelectedMood(mood);
               setTimeout(() => setActiveView('discover'), 300);
             }}
